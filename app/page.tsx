@@ -42,7 +42,7 @@ export default function Home() {
     if(session.status === "unauthenticated"){
       router.push("/login")
     }  
-    fetch(`http://localhost:3000/api/todos/${session.data?.user?.email}`)
+    fetch(`api/todos/${session.data?.user?.email}`)
     .then(res => res.json())
     .then(data => {
       setData(data)
@@ -81,7 +81,7 @@ export default function Home() {
         userEmail : session.data?.user?.email
       }
       try {
-        const res = await fetch(`http://localhost:3000/api/todos/${session.data?.user?.email}` , {
+        const res = await fetch(`api/todos/${session.data?.user?.email}` , {
           method : "POST",
           headers : {
             "Content-Type" : "application/json"

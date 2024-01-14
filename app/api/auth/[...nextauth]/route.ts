@@ -11,7 +11,7 @@ const authOptions: NextAuthOptions = {
             name: "Credentials",
             id: "credentials",
             async authorize(credentials : any) {
-                const { email, password } = credentials
+                const { email, password } = await credentials
                 await connectToDb()
                 try {
                     const user = await User.findOne({ email });
@@ -37,4 +37,5 @@ const authOptions: NextAuthOptions = {
 
 
 const handler = NextAuth(authOptions)
+
 export { handler as GET, handler as POST }

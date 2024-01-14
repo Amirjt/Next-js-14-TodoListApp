@@ -38,7 +38,7 @@ const SignleTodo = ({todo} : { todo : Todo }) => {
         background : `${theme === "dark" ? "#1e293b" : "white"}`,
     }).then((res)=>{
         if(res.isConfirmed){
-            fetch(`http://localhost:3000/api/todos/${session.data?.user?.email}/${todo._id}` , {
+            fetch(`api/todos/${session.data?.user?.email}/${todo._id}` , {
                 method : "DELETE"
             })
             .then(res => res.ok && window.location.reload());
@@ -56,7 +56,7 @@ const SignleTodo = ({todo} : { todo : Todo }) => {
 
   const CompletedHandle =  async (id : string) => {
     try {
-        fetch(`http://localhost:3000/api/todos/${session.data?.user?.email}/${id}` , {
+        fetch(`api/todos/${session.data?.user?.email}/${id}` , {
             method : "PUT" , 
             headers : {
                 "Content-Type" : "application/json"
@@ -74,7 +74,7 @@ const SignleTodo = ({todo} : { todo : Todo }) => {
 
   const notCompletedHandle = async (id : string) => {
     try {
-        fetch(`http://localhost:3000/api/todos/${session.data?.user?.email}/${id}` , {
+        fetch(`api/todos/${session.data?.user?.email}/${id}` , {
             method : "PUT" , 
             headers : {
                 "Content-Type" : "application/json"
@@ -92,7 +92,7 @@ const SignleTodo = ({todo} : { todo : Todo }) => {
 
   const updateHandle = async (id : string) => {
     try {
-        fetch(`http://localhost:3000/api/todos/${session.data?.user?.email}/${id}` , {
+        fetch(`api/todos/${session.data?.user?.email}/${id}` , {
             method : "PUT" , 
             headers : {
                 "Content-Type" : "application/json"
