@@ -29,6 +29,8 @@ export default function Home() {
   const [title , setTitle] = useState<string>("")
   const [search , setSearch] = useState("")
   const [loading , setLoading] = useState(true)
+  const [category , setCategory] = useState("all")
+  const [filteredTodos, setFilteredTodos] = useState([]);
 
   const {theme} = useTheme()
 
@@ -45,8 +47,23 @@ export default function Home() {
     .then(data => {
       setData(data)
       setLoading(false)
+      setFilteredTodos(data);
     })
   } , [session])
+
+  useEffect(() => {
+    switch (category) {
+      case "completed":
+        setFilteredTodos(data.filter((todo : Todo) => todo.isCompleted));
+        break;
+      case "in process":
+        setFilteredTodos(data.filter((todo : Todo) => !todo.isCompleted));
+        break;
+      default:
+        setFilteredTodos(data);
+        break;
+    }
+  }, [category, data]);
 
   const addNewTodoHandle = async () => {
      if(!title){
@@ -93,9 +110,9 @@ export default function Home() {
   return (
     <div className="max-w-[1600px] h-screen mx-auto flex justify-center items-center p-5 lg:p-0" >
       <div className="border border-border w-full lg:w-1/2 rounded-lg shadow-lg p-5 relative flex flex-col items-center gap-8" >
-        <span className="absolute top-2 left-2 flex items-center gap-2" >
+        <span className="absolute top-2 left-2 flex lg:flex-row flex-col items-center gap-2" >
           <ModeToggle />
-          <h2 className="text-sm" >Welcome <span className="text-primary font-bold capitalize" >{session.data?.user?.name}</span></h2>
+          <h2 className="lg:text-sm text-[10px]" >Welcome <span className="text-primary font-bold capitalize" >{session.data?.user?.name}</span></h2>
         </span>
         <span className="absolute bottom-3 right-3" >
          <LogOut className="cursor-pointer" onClick={() => signOut()} size={20} />
@@ -122,12 +139,12 @@ export default function Home() {
             <Input type="text" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
           <div  className="grid grid-cols-3 gap-3" >
-            <Button variant="outline">All</Button>
-            <Button variant="outline">In Process</Button>
-            <Button variant="outline">Completed</Button>
+            <Button variant={"outline"} className={`${category === "all" ? "bg-primary" : ""}`} onClick={()=> setCategory("all")}  >All</Button>
+            <Button variant={"outline"} className={`${category === "in process" ? "bg-primary" : ""}`} onClick={()=> setCategory("in process")}  >In Process</Button>
+            <Button variant={"outline"} className={`${category === "completed" ? "bg-primary" : ""}`} onClick={()=> setCategory("completed")} >Completed</Button>
           </div>
           <div className="grid lg:grid-cols-2 gap-3 w-full mb-10" >
-             {data?.map((todo : Todo)=> (
+             {filteredTodos?.map((todo : Todo)=> (
                <div key={todo._id} className={`${!todo.title.includes(search) ? "hidden" : ""}`}  >
                 <SignleTodo todo={todo} />
                </div>

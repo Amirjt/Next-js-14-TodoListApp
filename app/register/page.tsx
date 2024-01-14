@@ -57,6 +57,7 @@ const RegisterPage = () => {
         setName("")
         setEmail("")
         setPassword("")
+        router.push("/login")
       }
       if(res.status === 400){
         Swal.fire({
@@ -71,8 +72,8 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="w-full h-screen flex justify-center items-center" >
-      <div className="w-1/4 border border-border p-5 rounded-lg shadow-lg flex flex-col gap-6 items-center" >
+    <div className="w-full h-screen flex justify-center items-center p-5 lg:p-0" >
+      <div className="lg:w-1/4 w-full border border-border p-5 rounded-lg shadow-lg flex flex-col gap-6 items-center" >
           <h2 className="font-bold text-xl" >Sign Up</h2>
            <div className="w-full flex flex-col gap-2" >
            <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
